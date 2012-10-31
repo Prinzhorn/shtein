@@ -1,12 +1,18 @@
 var Shtein = require('./');
+var Lazy = require('lazy');
+
 var shtein = new Shtein;
+var counter = 0;
 
-shtein.add('Alex');
-shtein.add('Alyx');
-shtein.add('Blex');
+Lazy(process.stdin)
+	.lines
+	.map(String)
+	.forEach(function(line) {
+		shtein.add(line);
+		console.log(counter++);
+	})
+	.join(function() {
+		console.log(shtein.leven(Object.create(null), 'Alex', 1));
+	});
 
-console.log('Alx:2');
-console.dir(shtein.leven(Object.create(null), 'Alx', 2));
-
-console.log('Alex:1');
-console.dir(shtein.leven(Object.create(null), 'Alex', 1));
+process.stdin.resume();

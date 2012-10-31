@@ -3,9 +3,10 @@ var shtein = new Shtein;
 
 shtein.add('Alex');
 shtein.add('Alyx');
+shtein.add('Blex');
 
-var result = Object.create(null);
+console.log('Alx:2');
+console.dir(shtein.leven(Object.create(null), 'Alx', 2));
 
-shtein.leven(result, 'Alx', 2);
-
-console.dir(result);
+console.log('Alex:1');
+console.dir(shtein.leven(Object.create(null), 'Alex', 1));

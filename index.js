@@ -1,4 +1,4 @@
-function Shtein() {
+var Shtein = function() {
 	this.trie = Object.create(null);
 	this.terminator = "\0";
 }
@@ -94,10 +94,10 @@ Shtein.prototype.startingWith = function(prefix) {
 //Collects all words within a given levenshtein distance to word.
 //This is done by recursively doing it again with a decremented distance for each operation (substitution, deletion, insertion).
 Shtein.prototype.leven = function(out, word, dist) {
-	_leven.call(this, out, word, dist, dist, '', this.trie);
+	return this._leven(out, word, dist, dist, '', this.trie);
 }
 
-var _leven = function(out, word, dist, maxDist, prefix, trie) {
+Shtein.prototype._leven = function(out, word, dist, maxDist, prefix, trie) {
 	if(trie === undefined) {
 		return;
 	}
@@ -109,7 +109,6 @@ var _leven = function(out, word, dist, maxDist, prefix, trie) {
 			//Did another operation alrady each this word?
 			if(prefix in out) {
 				//Did the other operation do it with less operations?
-				//TODO: you're counting the distance wrong, bc it's decremented.
 				out[prefix] = Math.min(out[prefix], maxDist - dist);
 			} else {
 				out[prefix] = maxDist - dist;
@@ -124,21 +123,24 @@ var _leven = function(out, word, dist, maxDist, prefix, trie) {
 
 	//Are operations left?
 	if(dist > 0) {
-		//Deletion (we skip the current character).
-		_leven(out, word.substr(1), dist - 1, maxDist, prefix, trie);
-
-		//Walk all available paths for insertion.
+		//Walk all available paths.
 		for(var k in trie) {
 			if(k !== this.terminator) {
-				//Insertions.
-				_leven(out, k + word.substr(1), dist - 1, maxDist, prefix, trie);
+				//Substitution (replace first char with current).
+				this._leven(out, k + word.substr(1), dist - 1, maxDist, prefix, trie);
+
+				//Insertion (add current char in front).
+				this._leven(out, k + word, dist - 1, maxDist, prefix, trie);
 			}
 		}
 
-		//TODO: what bout substitution?
+		//Deletion (skip first char).
+		this._leven(out, word.substr(1), dist - 1, maxDist, prefix, trie);
 	}
 
-	_leven(out, word.substr(1), dist, maxDist, prefix + c, trie[c]);
+	this._leven(out, word.substr(1), dist, maxDist, prefix + c, trie[c]);
+
+	return out;
 };
 
 module.exports = Shtein;

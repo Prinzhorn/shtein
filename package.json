@@ -1,0 +1,33 @@
+{
+	"name": "Shtein",
+	"title": "Shtein - Fun with tries and levenshtein",
+	"description": "Create an index of words and search by levenshtein distance.",
+	"version": "0.0.1",
+	"homepage": "https://github.com/Prinzhorn/shtein",
+	"author": {
+		"name": "Alexander Prinzhorn",
+		"email": "alexander@prinzhorn.it",
+		"url": "http://www.prinzhorn.it/"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/Prinzhorn/shtein.git"
+	},
+	"bugs": {
+		"url": "https://github.com/Prinzhorn/shtein/issues"
+	},
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": "https://github.com/Prinzhorn/shtein/blob/master/LICENSE.txt"
+		}
+	],
+	"main": "index.js",
+	"engines": {
+		"node": ">=0.8"
+	},
+	"devDependencies": {
+		"lazy": ">1.0.x"
+	},
+	"keywords": ["levenshtein", "trie", "strings", "index"]
+}
